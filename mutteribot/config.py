@@ -5,8 +5,9 @@ import configparser
 
 NAME = 'mutteribot'
 HOME = os.path.expanduser('~')
+HERE = os.path.abspath(os.path.dirname(__file__))
 CONF_FILENAME = NAME+'.conf'
-CONF_TEMPLATE_PATH = CONF_FILENAME + '.template'
+CONF_TEMPLATE_PATH = os.path.join(HERE, CONF_FILENAME + '.template')
 CONFIG_PATH = os.path.join('/etc', CONF_FILENAME)
 CONFIG_PATH_USER = os.path.join(HOME, '.'+NAME, CONF_FILENAME)
 CONFIG_PATHS = [CONFIG_PATH_USER, CONFIG_PATH]
@@ -20,7 +21,9 @@ def ensure_dir(path):
 def install_config():
     if os.path.isfile(CONFIG_PATH_USER):
         conf_path = CONFIG_PATH_USER
-    elif not os.path.isfile(CONFIG_PATH):
+    elif os.path.isfile(CONFIG_PATH):
+        conf_path = CONFIG_PATH
+    else:
         try:
             conf_path = CONFIG_PATH
             shutil.copy(CONF_TEMPLATE_PATH, conf_path)

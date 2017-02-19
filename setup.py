@@ -23,11 +23,6 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 config.install_config()
 
-try:
-    systemd_service.install()
-except PermissionError as e:
-    print('Insufficient permissions to install systemd service, skipping...')
-
 setup(
     name=name,
 
@@ -88,7 +83,10 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=[],
+    install_requires=[
+        'python-telegram-bot',
+        'pandas'
+    ],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -103,7 +101,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        name: ['*.service', '*.conf']
+        name: ['*.service', '*.conf.template']
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
@@ -122,3 +120,8 @@ setup(
         ]
     },
 )
+
+try:
+    systemd_service.install()
+except PermissionError as e:
+    print('Insufficient permissions to install systemd service, skipping...')
