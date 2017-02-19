@@ -10,7 +10,7 @@ https://github.com/pypa/sampleproject
 from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
-from mutteribot import config
+from mutteribot import config, systemd_service
 from os import path
 
 
@@ -22,6 +22,11 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 config.install_config()
+
+try:
+    systemd_service.install()
+except PermissionError as e:
+    print('Insufficient permissions to install systemd service, skipping...')
 
 setup(
     name=name,
@@ -98,6 +103,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
+        name: ['*.service', '*.conf']
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
