@@ -5,6 +5,7 @@ from os import path
 
 DB_DIR = '/var/lib/ilmaruuvi'
 FILE_NAMING_SCHEME = '%Y%m%d.csv'
+COL_NAMES = ['time', 'temperature', 'rh', 'pressure']
 
 
 def filepath2dt(filepath):
@@ -24,7 +25,10 @@ def latest_filename():
     return path.join(DB_DIR, last_date.strftime(FILE_NAMING_SCHEME))
 
 
+def latest_day():
+    return pd.read_csv(latest_filename(), header=None, names=COL_NAMES,
+                       index_col='time')
+
+
 def latest_values():
-    col_names = ['time', 'temperature', 'rh', 'pressure']
-    data = pd.read_csv(latest_filename(), header=None, names=col_names)
-    return data.iloc[-1]
+    return latest_day().iloc[-1]

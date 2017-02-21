@@ -18,8 +18,8 @@ def halp(bot, update):
 
 def latest(bot, update):
     data = database.latest_values()
-    text = '{time}: {t} deg C, {rh}%, {pres}hPa'
-    update.message.reply_text(text.format(time=data['time'],
+    text = '{time}: {t}\u2103, {rh}%, {pres}hPa'
+    update.message.reply_text(text.format(time=data.name,
                                           t=data['temperature'],
                                           rh=data['rh'], pres=data['pressure']))
 
