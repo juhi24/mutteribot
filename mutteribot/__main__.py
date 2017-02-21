@@ -3,7 +3,7 @@ from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
 from mutteribot import config, database
 import logging
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+logging.basicConfig(format='{levelname:8s} {name}: {message}', style='{',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
